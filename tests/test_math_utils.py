@@ -1,6 +1,19 @@
 import unittest
 
-from math_utils import factorial, gcd, is_prime, lcm, square
+from math_utils import (
+    cube,
+    divide,
+    factorial,
+    fibonacci,
+    gcd,
+    is_even,
+    is_prime,
+    lcm,
+    mean,
+    power,
+    sqrt,
+    square,
+)
 
 
 class TestSquare(unittest.TestCase):
@@ -95,6 +108,142 @@ class TestLcm(unittest.TestCase):
     def test_tipo_invalido(self):
         with self.assertRaises(TypeError):
             lcm("4", 6)
+
+
+class TestCube(unittest.TestCase):
+    def test_entero_positivo(self):
+        self.assertEqual(cube(3), 27)
+
+    def test_entero_negativo(self):
+        self.assertEqual(cube(-2), -8)
+
+    def test_flotante(self):
+        self.assertAlmostEqual(cube(1.5), 3.375)
+
+    def test_cero(self):
+        self.assertEqual(cube(0), 0)
+
+    def test_tipo_invalido(self):
+        with self.assertRaises(TypeError):
+            cube("3")
+
+
+class TestPower(unittest.TestCase):
+    def test_potencia_de_dos(self):
+        self.assertEqual(power(2, 10), 1024)
+
+    def test_base_negativa(self):
+        self.assertEqual(power(-3, 3), -27)
+
+    def test_base_flotante(self):
+        self.assertAlmostEqual(power(0.5, 2), 0.25)
+
+    def test_exponente_cero(self):
+        self.assertEqual(power(7, 0), 1)
+
+    def test_exponente_negativo(self):
+        with self.assertRaises(ValueError):
+            power(2, -1)
+
+    def test_exponente_flotante(self):
+        with self.assertRaises(TypeError):
+            power(2, 1.5)
+
+
+class TestSqrt(unittest.TestCase):
+    def test_cuadrado_perfecto(self):
+        self.assertEqual(sqrt(16), 4)
+
+    def test_no_perfecto(self):
+        self.assertAlmostEqual(sqrt(2), 1.41421356, places=6)
+
+    def test_cero(self):
+        self.assertEqual(sqrt(0), 0)
+
+    def test_negativo(self):
+        with self.assertRaises(ValueError):
+            sqrt(-4)
+
+    def test_tipo_invalido(self):
+        with self.assertRaises(TypeError):
+            sqrt("16")
+
+
+class TestIsEven(unittest.TestCase):
+    def test_pares(self):
+        for n in (0, 2, 8, -4, 100):
+            with self.subTest(n=n):
+                self.assertTrue(is_even(n))
+
+    def test_impares(self):
+        for n in (1, 7, -3, 99):
+            with self.subTest(n=n):
+                self.assertFalse(is_even(n))
+
+    def test_tipo_invalido(self):
+        with self.assertRaises(TypeError):
+            is_even(2.0)
+
+
+class TestFibonacci(unittest.TestCase):
+    def test_primeros_valores(self):
+        esperados = [0, 1, 1, 2, 3, 5, 8, 13]
+        for n, valor in enumerate(esperados):
+            with self.subTest(n=n):
+                self.assertEqual(fibonacci(n), valor)
+
+    def test_valor_mayor(self):
+        self.assertEqual(fibonacci(30), 832040)
+
+    def test_negativo(self):
+        with self.assertRaises(ValueError):
+            fibonacci(-1)
+
+    def test_tipo_invalido(self):
+        with self.assertRaises(TypeError):
+            fibonacci("5")
+
+
+class TestDivide(unittest.TestCase):
+    def test_division_exacta(self):
+        self.assertEqual(divide(10, 2), 5)
+
+    def test_division_con_decimales(self):
+        self.assertAlmostEqual(divide(7, 2), 3.5)
+
+    def test_negativos(self):
+        self.assertEqual(divide(-9, 3), -3)
+
+    def test_entre_cero(self):
+        with self.assertRaises(ZeroDivisionError):
+            divide(5, 0)
+
+    def test_tipo_invalido(self):
+        with self.assertRaises(TypeError):
+            divide("10", 2)
+
+
+class TestMean(unittest.TestCase):
+    def test_enteros(self):
+        self.assertEqual(mean([1, 2, 3, 4]), 2.5)
+
+    def test_flotantes_y_tupla(self):
+        self.assertAlmostEqual(mean((1.5, 2.5, 3.5)), 2.5)
+
+    def test_un_elemento(self):
+        self.assertEqual(mean([7]), 7)
+
+    def test_lista_vacia(self):
+        with self.assertRaises(ValueError):
+            mean([])
+
+    def test_elemento_invalido(self):
+        with self.assertRaises(TypeError):
+            mean([1, "2", 3])
+
+    def test_no_es_lista(self):
+        with self.assertRaises(TypeError):
+            mean(5)
 
 
 if __name__ == "__main__":
