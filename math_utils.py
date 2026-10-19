@@ -13,7 +13,7 @@ def _check_number(value, name):
 def square(n):
     """Retorna el cuadrado de un número."""
     _check_number(n, "n")
-    return n + n  # Falla intencional para demostrar que CI bloquea el merge.
+    return n * n
 
 
 def factorial(n):
